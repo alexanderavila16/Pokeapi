@@ -34,12 +34,13 @@ const typeColors = {
 const searchPokemon = event => {
     // cancelamos el submit del forrm 
     event.preventDefault();
-    // obtenemos el valor del input del pokemon 
+    // obtenemos el valor del input del pokemon y llamamos desde la api
     const { value } = event.target.pokemon;
     fetch(`https://pokeapi.co/api/v2/pokemon/${value.toLowerCase()}`)
         .then(data => data.json())
         .then(response => renderPokemonData(response))
         .catch(err => renderNotFound())
+        sessionStorage.setItem("pokemon", value);
 }
 
 // obtenemos la data qque nos llega los srpites los stats los types
@@ -66,6 +67,7 @@ const setCardColor = types => {
 }
 
 const renderPokemonTypes = types => {
+    
     pokeTypes.innerHTML = '';
     types.forEach(type => {
         const typeTextElement = document.createElement("div");
@@ -76,6 +78,7 @@ const renderPokemonTypes = types => {
 }
 
 const renderPokemonStats = stats => {
+
     pokeStats.innerHTML = '';
     stats.forEach(stat => {
         const statElement = document.createElement("div");
@@ -90,6 +93,7 @@ const renderPokemonStats = stats => {
 }
 
 const renderNotFound = () => {
+
     pokeName.textContent = 'No encontrado';
     pokeImg.setAttribute('src', 'poke-shadow.png');
     pokeImg.style.background =  '#fff';
